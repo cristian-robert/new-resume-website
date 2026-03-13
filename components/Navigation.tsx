@@ -53,6 +53,15 @@ export function Navigation() {
     return () => observers.forEach((o) => o.disconnect());
   }, []);
 
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMobileOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [mobileOpen]);
+
   return (
     <>
       {/* Desktop floating pill */}
@@ -109,6 +118,9 @@ export function Navigation() {
       {/* Mobile overlay */}
       {mobileOpen && (
         <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Navigation menu"
           className="fixed inset-0 z-[60] flex flex-col items-center justify-center gap-8"
           style={{
             backgroundColor: "rgba(12, 12, 14, 0.95)",

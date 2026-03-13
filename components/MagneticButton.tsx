@@ -24,54 +24,70 @@ export function MagneticButton({
   strength = 0.3,
   onClick,
 }: MagneticButtonProps) {
-  const ref = useRef<HTMLButtonElement & HTMLAnchorElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const anchorRef = useRef<HTMLAnchorElement>(null);
+
+  const getEl = () => (Tag === "a" ? anchorRef.current : buttonRef.current);
 
   const handleMouseMove = useCallback(
     (e: React.MouseEvent) => {
-      if (!ref.current) return;
+      const el = getEl();
+      if (!el) return;
       const isMobile = window.matchMedia("(max-width: 768px)").matches;
       if (isMobile) return;
 
-      const rect = ref.current.getBoundingClientRect();
+      const rect = el.getBoundingClientRect();
       const x = e.clientX - rect.left - rect.width / 2;
       const y = e.clientY - rect.top - rect.height / 2;
 
-      gsap.to(ref.current, {
+      gsap.to(el, {
         x: x * strength,
         y: y * strength,
         duration: 0.3,
         ease: "power2.out",
       });
     },
-    [strength]
+    [Tag, strength]
   );
 
   const handleMouseLeave = useCallback(() => {
-    if (!ref.current) return;
-    gsap.to(ref.current, {
+    const el = getEl();
+    if (!el) return;
+    gsap.to(el, {
       x: 0,
       y: 0,
       duration: 0.5,
       ease: "elastic.out(1, 0.5)",
     });
-  }, []);
-
-  const commonProps = {
-    ref,
-    className,
-    style,
-    onMouseMove: handleMouseMove,
-    onMouseLeave: handleMouseLeave,
-    onClick,
-  };
+  }, [Tag]);
 
   if (Tag === "a") {
     return (
-      <a {...commonProps} href={href} download={download}>
+      <a
+        ref={anchorRef}
+        className={className}
+        style={style}
+        href={href}
+        download={download}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        onClick={onClick}
+      >
         {children}
       </a>
     );
   }
 
-  return <button {...commonProps}>{children}</button>;
+  return (
+    <button
+      ref={buttonRef}
+      className={className}
+      style={style}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  );
 }

@@ -88,19 +88,36 @@ export function ShaderBackground({ className = "" }: { className?: string }) {
       type: number,
       source: string
     ) {
-      const shader = glCtx.createShader(type)!;
+      const shader = glCtx.createShader(type);
+      if (!shader) return null;
       glCtx.shaderSource(shader, source);
       glCtx.compileShader(shader);
+      if (!glCtx.getShaderParameter(shader, glCtx.COMPILE_STATUS)) {
+        glCtx.deleteShader(shader);
+        return null;
+      }
       return shader;
     }
 
     const vs = createShader(gl, gl.VERTEX_SHADER, VERTEX_SHADER);
     const fs = createShader(gl, gl.FRAGMENT_SHADER, FRAGMENT_SHADER);
+    if (!vs || !fs) {
+      canvas.style.display = "none";
+      return;
+    }
 
-    const program = gl.createProgram()!;
+    const program = gl.createProgram();
+    if (!program) {
+      canvas.style.display = "none";
+      return;
+    }
     gl.attachShader(program, vs);
     gl.attachShader(program, fs);
     gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      canvas.style.display = "none";
+      return;
+    }
     gl.useProgram(program);
 
     const vertices = new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]);
@@ -142,6 +159,12 @@ export function ShaderBackground({ className = "" }: { className?: string }) {
     return () => {
       window.removeEventListener("resize", resize);
       cancelAnimationFrame(animationRef.current);
+      gl.deleteShader(vs);
+      gl.deleteShader(fs);
+      gl.deleteBuffer(buffer);
+      gl.deleteProgram(program);
+      const ext = gl.getExtension("WEBGL_lose_context");
+      ext?.loseContext();
     };
   }, []);
 
@@ -153,7 +176,7 @@ export function ShaderBackground({ className = "" }: { className?: string }) {
         aria-hidden="true"
       />
       <div
-        className="absolute inset-0 w-full h-full opacity-35 md:hidden"
+        className="absolute inset-0 w-full h-full opacity-35 md:hidden motion-reduce:block"
         style={{
           background:
             "radial-gradient(ellipse at 30% 50%, rgba(245,158,11,0.08), transparent 60%), radial-gradient(ellipse at 70% 30%, rgba(245,158,11,0.05), transparent 50%)",

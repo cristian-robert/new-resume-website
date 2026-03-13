@@ -1,6 +1,6 @@
 import { ExternalLink, Github, Star } from "lucide-react";
 import type { GitHubRepo } from "@/lib/data/types";
-import { curatedProjects } from "@/lib/data/projects";
+import { curatedProjects, type CuratedProject } from "@/lib/data/projects";
 import { ScrollReveal } from "@/components/ScrollReveal";
 
 const LANGUAGE_COLORS: Record<string, string> = {
@@ -25,7 +25,10 @@ export function Projects({ repos }: ProjectsProps) {
       );
       return { curated, repo };
     })
-    .filter(({ repo }) => repo !== undefined);
+    .filter(
+      (item): item is { curated: CuratedProject; repo: GitHubRepo } =>
+        item.repo !== undefined
+    );
 
   const curatedNames = new Set(
     curatedProjects.map((p) => p.repo.toLowerCase())
@@ -58,7 +61,7 @@ export function Projects({ repos }: ProjectsProps) {
 
                 <div className="p-6 flex-1 flex flex-col">
                   <h3 className="text-lg font-semibold text-text-primary mb-2">
-                    {repo!.name}
+                    {repo.name}
                   </h3>
                   <p className="text-sm text-text-secondary mb-4 flex-1">
                     {curated.description}
@@ -88,7 +91,7 @@ export function Projects({ repos }: ProjectsProps) {
                       </a>
                     )}
                     <a
-                      href={repo!.url}
+                      href={repo.url}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-1 text-text-muted hover:text-accent transition-colors"
@@ -96,10 +99,10 @@ export function Projects({ repos }: ProjectsProps) {
                       <Github className="w-3 h-3" />
                       Source
                     </a>
-                    {repo!.stars > 0 && (
+                    {repo.stars > 0 && (
                       <span className="flex items-center gap-1 text-text-muted">
                         <Star className="w-3 h-3" />
-                        {repo!.stars}
+                        {repo.stars}
                       </span>
                     )}
                   </div>
