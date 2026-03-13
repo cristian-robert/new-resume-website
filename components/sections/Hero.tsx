@@ -29,72 +29,52 @@ export function Hero() {
     >
       {/* Background gradient orbs */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        {/* Primary cyan orb — top right */}
         <div
-          className="animate-float absolute -top-20 right-[10%] h-[500px] w-[500px] rounded-full opacity-20 blur-[100px] sm:h-[600px] sm:w-[600px]"
+          className="animate-float absolute -top-20 right-[10%] h-[500px] w-[500px] rounded-full opacity-[0.12] blur-[100px] sm:h-[600px] sm:w-[600px]"
           style={{
-            background:
-              "radial-gradient(circle, var(--accent-cyan) 0%, var(--accent-cyan-dim) 40%, transparent 70%)",
+            background: "radial-gradient(circle, #10B981 0%, #059669 40%, transparent 70%)",
+            animationDuration: "14s",
           }}
         />
-        {/* Secondary amber orb — bottom left */}
         <div
-          className="animate-float animation-delay-200 absolute -bottom-32 -left-20 h-[400px] w-[400px] rounded-full opacity-15 blur-[100px] sm:h-[500px] sm:w-[500px]"
+          className="animate-float animation-delay-300 absolute -bottom-32 -left-20 h-[400px] w-[400px] rounded-full opacity-[0.08] blur-[120px] sm:h-[500px] sm:w-[500px]"
           style={{
-            background:
-              "radial-gradient(circle, var(--accent-amber) 0%, var(--accent-amber-dim) 40%, transparent 70%)",
-            animationDuration: "8s",
+            background: "radial-gradient(circle, #34D399 0%, #059669 40%, transparent 70%)",
+            animationDuration: "18s",
             animationDirection: "reverse",
-          }}
-        />
-        {/* Tertiary cyan orb — center left, subtle */}
-        <div
-          className="animate-float animation-delay-400 absolute top-1/2 left-[5%] h-[300px] w-[300px] -translate-y-1/2 rounded-full opacity-10 blur-[120px]"
-          style={{
-            background:
-              "radial-gradient(circle, var(--accent-cyan-bright) 0%, transparent 60%)",
-            animationDuration: "10s",
           }}
         />
       </div>
 
-      {/* Noise texture overlay */}
-      <div className="noise pointer-events-none absolute inset-0" aria-hidden="true" />
-
       {/* Content */}
       <div className="relative z-10 mx-auto max-w-4xl text-center">
-        {/* Greeting line */}
-        <p className="animate-fadeInUp mb-4 text-sm font-medium tracking-widest uppercase text-[var(--accent-cyan-dim)] sm:text-base">
-          Hello, I&apos;m
-        </p>
-
-        {/* Name — massive typography */}
-        <h1 className="animate-fadeInUp animation-delay-100 mb-6 text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl lg:text-8xl">
-          <span className="text-gradient-cyan">{profile.name}</span>
+        {/* Name */}
+        <h1 className="animate-fadeInUp mb-6 text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl lg:text-8xl">
+          <span className="text-gradient-accent">{profile.name}</span>
         </h1>
 
-        {/* Typed text line — terminal style */}
-        <div className="animate-fadeInUp animation-delay-200 mb-8 flex items-center justify-center gap-1">
-          <span className="font-mono text-lg text-[var(--accent-amber)] sm:text-xl md:text-2xl">
+        {/* Typed text — terminal style */}
+        <div className="animate-fadeInUp animation-delay-100 mb-8 flex items-center justify-center gap-1">
+          <span className="font-mono text-lg text-emerald-400 sm:text-xl md:text-2xl">
             {">"}&nbsp;
           </span>
-          <span className="font-mono text-lg text-[var(--muted-foreground)] sm:text-xl md:text-2xl">
+          <span className="font-mono text-lg text-slate-400 sm:text-xl md:text-2xl">
             {typedText}
           </span>
-          <span className="animate-blink-cursor inline-block h-6 w-[2px] translate-y-[1px] bg-[var(--accent-cyan)] sm:h-7 md:h-8" />
+          <span className="animate-blink-cursor inline-block h-6 w-[2px] translate-y-[1px] bg-emerald-400 sm:h-7 md:h-8" />
         </div>
 
         {/* Summary */}
-        <p className="animate-fadeInUp animation-delay-300 mx-auto mb-10 max-w-2xl text-base leading-relaxed text-[var(--muted-foreground)] sm:text-lg">
+        <p className="animate-fadeInUp animation-delay-200 mx-auto mb-10 max-w-2xl text-base leading-relaxed text-slate-400 sm:text-lg">
           {shortSummary}
         </p>
 
         {/* CTA Buttons */}
-        <div className="animate-fadeInUp animation-delay-400 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <div className="animate-fadeInUp animation-delay-300 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <a href="#experience">
             <Button
               size="lg"
-              className="glow-cyan cursor-pointer gap-2 bg-[var(--accent-cyan)] px-6 py-5 text-sm font-semibold text-[oklch(0.13_0.005_260)] transition-all duration-300 hover:bg-[var(--accent-cyan-bright)] hover:shadow-lg sm:text-base"
+              className="glow-accent cursor-pointer gap-2 bg-emerald-500 px-6 py-5 text-sm font-semibold text-slate-950 transition-all duration-300 hover:bg-emerald-400 hover:shadow-lg sm:text-base"
             >
               View My Work
               <ArrowDown className="size-4" />
@@ -104,7 +84,7 @@ export function Hero() {
             <Button
               variant="outline"
               size="lg"
-              className="cursor-pointer gap-2 border-[var(--accent-cyan-dim)] px-6 py-5 text-sm font-semibold text-[var(--accent-cyan)] transition-all duration-300 hover:border-[var(--accent-cyan)] hover:bg-[var(--accent-cyan)]/10 sm:text-base"
+              className="cursor-pointer gap-2 border-emerald-500/30 px-6 py-5 text-sm font-semibold text-emerald-400 transition-all duration-300 hover:border-emerald-400 hover:bg-emerald-500/10 sm:text-base"
             >
               <Mail className="size-4" />
               Get in Touch
@@ -114,13 +94,10 @@ export function Hero() {
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-fadeInUp animation-delay-600">
-        <div
-          className="flex flex-col items-center gap-2 text-[var(--muted-foreground)] opacity-60"
-          aria-hidden="true"
-        >
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-fadeInUp animation-delay-500">
+        <div className="flex flex-col items-center gap-2 text-slate-500 opacity-60" aria-hidden="true">
           <span className="text-xs tracking-widest uppercase">Scroll</span>
-          <div className="h-8 w-[1px] animate-pulse-glow bg-[var(--accent-cyan-dim)]" />
+          <div className="h-8 w-[1px] bg-emerald-500/40 animate-pulse" />
         </div>
       </div>
     </section>

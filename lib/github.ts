@@ -23,6 +23,10 @@ export async function fetchGitHubRepos(): Promise<GitHubRepo[]> {
 
   return data
     .filter((repo: Record<string, unknown>) => !repo.fork)
+    .filter((repo: Record<string, unknown>) => {
+      const desc = repo.description as string | null;
+      return desc !== null && desc.trim().length > 0 && desc.trim().toLowerCase() !== "test";
+    })
     .map((repo: Record<string, unknown>) => ({
       name: repo.name as string,
       description: (repo.description as string) ?? null,

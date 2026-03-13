@@ -26,50 +26,30 @@ export function Navigation() {
   const [activeSection, setActiveSection] = useState("");
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  // Scroll detection for navbar background
   useEffect(() => {
     function handleScroll() {
       setScrolled(window.scrollY > 50);
     }
-
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Intersection Observer for scroll-spy
   useEffect(() => {
     const sectionIds = NAV_LINKS.map((link) => link.href.slice(1));
-    const observers: IntersectionObserver[] = [];
-
-    const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) setActiveSection(entry.target.id);
         }
-      }
-    };
-
-    const observer = new IntersectionObserver(observerCallback, {
-      rootMargin: "-20% 0px -60% 0px",
-      threshold: 0,
-    });
-
+      },
+      { rootMargin: "-20% 0px -60% 0px", threshold: 0 }
+    );
     for (const id of sectionIds) {
       const el = document.getElementById(id);
-      if (el) {
-        observer.observe(el);
-      }
+      if (el) observer.observe(el);
     }
-
-    observers.push(observer);
-
-    return () => {
-      for (const obs of observers) {
-        obs.disconnect();
-      }
-    };
+    return () => observer.disconnect();
   }, []);
 
   const handleMobileLinkClick = useCallback(() => {
@@ -80,65 +60,52 @@ export function Navigation() {
     <header
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         scrolled
-          ? "glass border-b border-[oklch(1_0_0/8%)]"
+          ? "glass border-b border-white/[0.08]"
           : "bg-transparent"
       }`}
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Logo / Name */}
-        <a
-          href="#"
-          className="text-lg font-bold tracking-tight text-gradient-cyan"
-        >
+        <a href="#" className="text-lg font-bold tracking-tight text-gradient-accent">
           C.R.I
         </a>
 
-        {/* Desktop nav links */}
         <div className="hidden lg:flex items-center gap-1">
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+              className={`px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${
                 activeSection === link.href.slice(1)
-                  ? "text-[var(--accent-cyan)]"
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "text-emerald-400"
+                  : "text-slate-400 hover:text-slate-200"
               }`}
             >
               {link.label}
             </a>
           ))}
-
-          <a
-            href="/Cristian-Robert-Iosef-CV.pdf"
-            download
-            className="ml-3"
-          >
-            <Button variant="outline" size="sm">
+          <a href="/Cristian-Robert-Iosef-CV.pdf" download className="ml-3">
+            <Button
+              variant="outline"
+              size="sm"
+              className="border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 hover:border-emerald-400 cursor-pointer"
+            >
               <Download className="size-3.5" data-icon="inline-start" />
               Download CV
             </Button>
           </a>
         </div>
 
-        {/* Mobile nav */}
         <div className="lg:hidden">
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger
-              render={
-                <Button variant="ghost" size="icon" aria-label="Open menu" />
-              }
+              render={<Button variant="ghost" size="icon" aria-label="Open menu" />}
             >
               <Menu className="size-5" />
             </SheetTrigger>
-
             <SheetContent side="right" className="w-72 glass">
               <SheetHeader>
-                <SheetTitle className="text-gradient-cyan font-bold">
-                  C.R.I
-                </SheetTitle>
+                <SheetTitle className="text-gradient-accent font-bold">C.R.I</SheetTitle>
               </SheetHeader>
-
               <div className="flex flex-col gap-1 px-4">
                 {NAV_LINKS.map((link) => (
                   <SheetClose
@@ -149,8 +116,8 @@ export function Navigation() {
                         onClick={handleMobileLinkClick}
                         className={`px-3 py-2.5 text-sm font-medium rounded-md transition-colors ${
                           activeSection === link.href.slice(1)
-                            ? "text-[var(--accent-cyan)] bg-[var(--glow-cyan)]"
-                            : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                            ? "text-emerald-400 bg-emerald-500/10"
+                            : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
                         }`}
                       />
                     }
@@ -159,14 +126,13 @@ export function Navigation() {
                   </SheetClose>
                 ))}
               </div>
-
               <div className="mt-auto px-4 pb-4">
-                <a
-                  href="/Cristian-Robert-Iosef-CV.pdf"
-                  download
-                  className="block"
-                >
-                  <Button variant="outline" size="default" className="w-full">
+                <a href="/Cristian-Robert-Iosef-CV.pdf" download className="block">
+                  <Button
+                    variant="outline"
+                    size="default"
+                    className="w-full border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 cursor-pointer"
+                  >
                     <Download className="size-4" data-icon="inline-start" />
                     Download CV
                   </Button>

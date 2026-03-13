@@ -6,15 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import {
-  Mail,
-  Phone,
-  Linkedin,
-  Globe,
-  MapPin,
-  Send,
-  Loader2,
-} from "lucide-react";
+import { Mail, Phone, Linkedin, Globe, Send, Loader2 } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,37 +22,10 @@ const contactSchema = z.object({
 type ContactFormData = z.infer<typeof contactSchema>;
 
 const contactLinks = [
-  {
-    icon: Mail,
-    label: "Email",
-    value: profile.email,
-    href: `mailto:${profile.email}`,
-  },
-  {
-    icon: Phone,
-    label: "Phone",
-    value: profile.phone,
-    href: `tel:${profile.phone}`,
-  },
-  {
-    icon: Linkedin,
-    label: "LinkedIn",
-    value: "cristianrobert-iosef",
-    href: profile.linkedin,
-    external: true,
-  },
-  {
-    icon: Globe,
-    label: "Website",
-    value: "criosef-resume.info",
-    href: profile.website,
-    external: true,
-  },
-  {
-    icon: MapPin,
-    label: "Location",
-    value: profile.location,
-  },
+  { icon: Mail, label: "Email", value: profile.email, href: `mailto:${profile.email}` },
+  { icon: Phone, label: "Phone", value: profile.phone, href: `tel:${profile.phone}` },
+  { icon: Linkedin, label: "LinkedIn", value: "cristianrobert-iosef", href: profile.linkedin, external: true },
+  { icon: Globe, label: "Website", value: "criosef-resume.info", href: profile.website, external: true },
 ] as const;
 
 export function Contact() {
@@ -69,9 +34,7 @@ export function Contact() {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<ContactFormData>({
-    resolver: zodResolver(contactSchema),
-  });
+  } = useForm<ContactFormData>({ resolver: zodResolver(contactSchema) });
 
   const onSubmit = async (data: ContactFormData) => {
     try {
@@ -89,62 +52,45 @@ export function Contact() {
       toast.success("Message sent! I'll get back to you soon.");
       reset();
     } catch {
-      toast.error(
-        "Something went wrong. Please try again or email me directly."
-      );
+      toast.error("Something went wrong. Please try again or email me directly.");
     }
   };
 
   return (
-    <section
-      id="contact"
-      className="relative px-4 py-24 sm:px-6 sm:py-32 lg:px-8"
-    >
+    <section id="contact" className="relative px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
       <div className="mx-auto max-w-5xl">
-        {/* Section heading */}
         <ScrollAnimator animation="fadeInUp">
           <h2 className="mb-4 text-center text-3xl font-bold tracking-tight sm:text-4xl">
-            <span className="text-gradient-cyan">Get in Touch</span>
+            <span className="text-gradient-accent">Get in Touch</span>
           </h2>
-          <p className="mx-auto mb-12 max-w-lg text-center text-[var(--muted-foreground)]">
+          <p className="mx-auto mb-12 max-w-lg text-center text-slate-400">
             Have a question or want to work together? Drop me a message.
           </p>
         </ScrollAnimator>
 
-        {/* Two-column layout */}
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
-          {/* Left side — Contact Info */}
+          {/* Contact Info */}
           <div className="space-y-4">
             {contactLinks.map((item, index) => {
               const Icon = item.icon;
               const content = (
-                <div className="glass noise relative flex items-center gap-4 rounded-xl px-5 py-4 transition-all duration-300 hover:scale-[1.02] hover:border-[var(--accent-cyan-dim)]/40">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[var(--accent-cyan)]/10">
-                    <Icon className="h-5 w-5 text-[var(--accent-cyan)]" />
+                <div className="glass relative flex items-center gap-4 rounded-xl px-5 py-4 transition-all duration-300 hover:scale-[1.02] cursor-pointer">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10">
+                    <Icon className="h-5 w-5 text-emerald-400" />
                   </span>
                   <div className="min-w-0">
-                    <p className="text-xs font-medium uppercase tracking-wider text-[var(--muted-foreground)]">
-                      {item.label}
-                    </p>
-                    <p className="truncate text-sm font-semibold text-foreground">
-                      {item.value}
-                    </p>
+                    <p className="text-xs font-medium uppercase tracking-wider text-slate-500">{item.label}</p>
+                    <p className="truncate text-sm font-semibold text-slate-200">{item.value}</p>
                   </div>
                 </div>
               );
 
               return (
-                <ScrollAnimator
-                  key={item.label}
-                  animation="fadeInLeft"
-                  delay={index * 100}
-                >
+                <ScrollAnimator key={item.label} animation="fadeInLeft" delay={index * 100}>
                   {"href" in item && item.href ? (
                     <a
                       href={item.href}
-                      {...("external" in item && item.external
-                        ? { target: "_blank", rel: "noopener noreferrer" }
-                        : {})}
+                      {...("external" in item && item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                       className="block"
                     >
                       {content}
@@ -157,88 +103,64 @@ export function Contact() {
             })}
           </div>
 
-          {/* Right side — Contact Form */}
+          {/* Contact Form */}
           <ScrollAnimator animation="fadeInRight" delay={200}>
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="glass noise relative space-y-5 rounded-2xl p-6 sm:p-8"
-            >
-              {/* Name */}
+            <form onSubmit={handleSubmit(onSubmit)} className="glass relative space-y-5 rounded-2xl p-6 sm:p-8">
               <div className="space-y-2">
                 <Label htmlFor="name">Name</Label>
                 <Input
                   id="name"
                   placeholder="Your name"
-                  className="h-10 border-[var(--accent-cyan-dim)]/20 bg-transparent focus-visible:border-[var(--accent-cyan)] focus-visible:ring-[var(--accent-cyan)]/30"
+                  className="h-10 border-emerald-500/20 bg-transparent focus-visible:border-emerald-500 focus-visible:ring-emerald-500/30"
                   aria-invalid={errors.name ? "true" : undefined}
                   {...register("name")}
                 />
-                {errors.name && (
-                  <p className="text-xs text-destructive">
-                    {errors.name.message}
-                  </p>
-                )}
+                {errors.name && <p className="text-xs text-destructive">{errors.name.message}</p>}
               </div>
 
-              {/* Email */}
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
                   type="email"
                   placeholder="your@email.com"
-                  className="h-10 border-[var(--accent-cyan-dim)]/20 bg-transparent focus-visible:border-[var(--accent-cyan)] focus-visible:ring-[var(--accent-cyan)]/30"
+                  className="h-10 border-emerald-500/20 bg-transparent focus-visible:border-emerald-500 focus-visible:ring-emerald-500/30"
                   aria-invalid={errors.email ? "true" : undefined}
                   {...register("email")}
                 />
-                {errors.email && (
-                  <p className="text-xs text-destructive">
-                    {errors.email.message}
-                  </p>
-                )}
+                {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
               </div>
 
-              {/* Subject */}
               <div className="space-y-2">
                 <Label htmlFor="subject">Subject</Label>
                 <Input
                   id="subject"
                   placeholder="What's this about?"
-                  className="h-10 border-[var(--accent-cyan-dim)]/20 bg-transparent focus-visible:border-[var(--accent-cyan)] focus-visible:ring-[var(--accent-cyan)]/30"
+                  className="h-10 border-emerald-500/20 bg-transparent focus-visible:border-emerald-500 focus-visible:ring-emerald-500/30"
                   aria-invalid={errors.subject ? "true" : undefined}
                   {...register("subject")}
                 />
-                {errors.subject && (
-                  <p className="text-xs text-destructive">
-                    {errors.subject.message}
-                  </p>
-                )}
+                {errors.subject && <p className="text-xs text-destructive">{errors.subject.message}</p>}
               </div>
 
-              {/* Message */}
               <div className="space-y-2">
                 <Label htmlFor="message">Message</Label>
                 <Textarea
                   id="message"
                   placeholder="Tell me more..."
                   rows={5}
-                  className="border-[var(--accent-cyan-dim)]/20 bg-transparent focus-visible:border-[var(--accent-cyan)] focus-visible:ring-[var(--accent-cyan)]/30"
+                  className="border-emerald-500/20 bg-transparent focus-visible:border-emerald-500 focus-visible:ring-emerald-500/30"
                   aria-invalid={errors.message ? "true" : undefined}
                   {...register("message")}
                 />
-                {errors.message && (
-                  <p className="text-xs text-destructive">
-                    {errors.message.message}
-                  </p>
-                )}
+                {errors.message && <p className="text-xs text-destructive">{errors.message.message}</p>}
               </div>
 
-              {/* Submit */}
               <Button
                 type="submit"
                 disabled={isSubmitting}
                 size="lg"
-                className="w-full bg-[var(--accent-cyan)] font-semibold text-[oklch(0.13_0.005_260)] transition-all duration-300 hover:bg-[var(--accent-cyan-bright)] hover:shadow-lg hover:shadow-[var(--glow-cyan)] disabled:opacity-50"
+                className="w-full cursor-pointer bg-emerald-500 font-semibold text-slate-950 transition-all duration-300 hover:bg-emerald-400 hover:shadow-lg hover:shadow-emerald-500/20 disabled:opacity-50"
               >
                 {isSubmitting ? (
                   <>

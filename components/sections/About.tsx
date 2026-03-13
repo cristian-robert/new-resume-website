@@ -1,16 +1,16 @@
 import { profile, skills } from "@/lib/data";
 import type { SkillCategory } from "@/lib/data";
+import { getProfileStats } from "@/lib/stats";
 import { ScrollAnimator } from "@/components/ScrollAnimator";
 import { Badge } from "@/components/ui/badge";
 
-/** Icon mapping for skill categories — keeps the component self-contained */
 const CATEGORY_ICONS: Record<string, string> = {
   "Programming Languages": "{ }",
-  "Frontend": "</>",
+  Frontend: "</>",
   "Testing & Automation": "QA",
   "Backend & Frameworks": "API",
   "CI/CD & DevOps": "CI",
-  "Databases": "DB",
+  Databases: "DB",
   "Tools & Platforms": "CLI",
   "AI & LLMs": "AI",
   "Spoken Languages": "Aa",
@@ -22,33 +22,30 @@ function CategoryCard({ category }: { category: SkillCategory }) {
 
   return (
     <div
-      className={`glass noise relative flex items-center gap-3 rounded-xl px-4 py-3 transition-all duration-300 hover:scale-[1.03] ${
+      className={`glass relative flex items-center gap-3 rounded-xl px-4 py-3 transition-all duration-300 hover:scale-[1.03] cursor-pointer ${
         isEmphasized
-          ? "border border-[var(--accent-cyan-dim)]/40 glow-cyan"
+          ? "border border-emerald-500/30 glow-accent"
           : "border border-transparent"
       }`}
     >
-      {/* Icon badge */}
       <span
         className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg font-mono text-xs font-bold ${
           isEmphasized
-            ? "bg-[var(--accent-cyan)]/15 text-[var(--accent-cyan)]"
-            : "bg-[var(--accent-amber)]/10 text-[var(--accent-amber)]"
+            ? "bg-emerald-500/15 text-emerald-400"
+            : "bg-slate-800 text-slate-400"
         }`}
       >
         {icon}
       </span>
-
-      {/* Label + skill count */}
       <div className="min-w-0">
         <p
           className={`text-sm font-semibold leading-tight ${
-            isEmphasized ? "text-[var(--accent-cyan)]" : "text-foreground"
+            isEmphasized ? "text-emerald-400" : "text-slate-200"
           }`}
         >
           {category.name}
         </p>
-        <p className="text-xs text-[var(--muted-foreground)]">
+        <p className="text-xs text-slate-500">
           {category.skills.length} skill{category.skills.length !== 1 ? "s" : ""}
         </p>
       </div>
@@ -56,64 +53,69 @@ function CategoryCard({ category }: { category: SkillCategory }) {
   );
 }
 
+function StatCard({ value, label, delay }: { value: string; label: string; delay: number }) {
+  return (
+    <ScrollAnimator animation="scaleIn" delay={delay}>
+      <div className="flex flex-col items-center gap-1 rounded-xl border border-white/[0.08] bg-slate-900/40 px-4 py-5 text-center">
+        <span className="text-3xl font-bold text-emerald-400 sm:text-4xl">{value}</span>
+        <span className="text-xs font-medium tracking-wide text-slate-500 uppercase">{label}</span>
+      </div>
+    </ScrollAnimator>
+  );
+}
+
 export function About() {
-  // Filter out "Spoken Languages" from tech stack overview — it's not a tech category
   const techCategories = skills.filter((c) => c.name !== "Spoken Languages");
+  const stats = getProfileStats();
 
   return (
-    <section
-      id="about"
-      className="relative px-4 py-24 sm:px-6 sm:py-32 lg:px-8"
-    >
-      <div className="mx-auto max-w-3xl">
-        {/* Section heading */}
+    <section id="about" className="relative px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <div className="mx-auto max-w-5xl">
         <ScrollAnimator animation="fadeInUp">
           <h2 className="mb-12 text-center text-3xl font-bold tracking-tight sm:text-4xl">
-            <span className="text-gradient-cyan">About Me</span>
+            <span className="text-gradient-accent">About Me</span>
           </h2>
         </ScrollAnimator>
 
-        {/* Summary paragraphs */}
-        <div className="space-y-6">
-          {profile.summary.map((paragraph, i) => (
-            <ScrollAnimator key={i} animation="fadeInUp" delay={100 + i * 100}>
-              <p className="text-base leading-relaxed text-[var(--muted-foreground)] sm:text-lg">
-                {paragraph}
-              </p>
-            </ScrollAnimator>
-          ))}
+        {/* Two-column: summary + stats */}
+        <div className="mb-16 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
+          <div className="space-y-6">
+            {profile.summary.slice(0, 2).map((paragraph, i) => (
+              <ScrollAnimator key={i} animation="fadeInUp" delay={100 + i * 100}>
+                <p className="text-base leading-relaxed text-slate-400 sm:text-lg">{paragraph}</p>
+              </ScrollAnimator>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <StatCard value={`${stats.yearsOfExperience}+`} label="Years Experience" delay={200} />
+            <StatCard value={`${stats.companies}`} label="Companies" delay={300} />
+            <StatCard value={`${stats.testingFrameworks}+`} label="Test Frameworks" delay={400} />
+            <StatCard value={`${stats.totalTechnologies}+`} label="Technologies" delay={500} />
+          </div>
         </div>
 
         {/* Tech Stack Overview */}
         <ScrollAnimator animation="fadeInUp" delay={500}>
-          <div className="mt-16">
+          <div>
             <div className="mb-6 flex items-center gap-3">
-              <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-[var(--accent-cyan-dim)]/30 to-transparent" />
-              <h3 className="shrink-0 text-sm font-semibold tracking-widest uppercase text-[var(--accent-cyan-dim)]">
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+              <h3 className="shrink-0 text-sm font-semibold tracking-widest uppercase text-emerald-600">
                 Tech Stack Overview
               </h3>
-              <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-[var(--accent-cyan-dim)]/30 to-transparent" />
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
             </div>
 
-            {/* Category grid */}
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {techCategories.map((category, i) => (
-                <ScrollAnimator
-                  key={category.name}
-                  animation="fadeInUp"
-                  delay={600 + i * 80}
-                >
+                <ScrollAnimator key={category.name} animation="fadeInUp" delay={600 + i * 80}>
                   <CategoryCard category={category} />
                 </ScrollAnimator>
               ))}
             </div>
 
-            {/* Emphasis legend — subtle note */}
-            <p className="mt-4 text-center text-xs text-[var(--muted-foreground)]/60">
-              <Badge
-                variant="outline"
-                className="mr-1 border-[var(--accent-cyan-dim)]/40 text-[10px] text-[var(--accent-cyan-dim)]"
-              >
+            <p className="mt-4 text-center text-xs text-slate-600">
+              <Badge variant="outline" className="mr-1 border-emerald-500/30 text-[10px] text-emerald-600">
                 highlighted
               </Badge>
               categories represent core specializations

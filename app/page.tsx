@@ -5,10 +5,10 @@ import { About } from "@/components/sections/About";
 import { Skills } from "@/components/sections/Skills";
 import { Experience } from "@/components/sections/Experience";
 import { Projects } from "@/components/sections/Projects";
-import { Certifications } from "@/components/sections/Certifications";
-import { Education } from "@/components/sections/Education";
+import { EducationCertifications } from "@/components/sections/EducationCertifications";
 import { Contact } from "@/components/sections/Contact";
 import { Footer } from "@/components/Footer";
+import { ScrollToTop } from "@/components/ScrollToTop";
 
 export default async function Home() {
   const repos = await fetchGitHubRepos();
@@ -22,11 +22,11 @@ export default async function Home() {
         <Skills />
         <Experience />
         <Projects repos={repos} />
-        <Certifications />
-        <Education />
+        <EducationCertifications />
         <Contact />
       </main>
       <Footer />
+      <ScrollToTop />
     </>
   );
 }
