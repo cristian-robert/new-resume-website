@@ -1,4 +1,5 @@
 import { fetchGitHubRepos } from "@/lib/github";
+import { SmoothScroll } from "@/components/SmoothScroll";
 import { Navigation } from "@/components/Navigation";
 import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
@@ -8,13 +9,12 @@ import { Projects } from "@/components/sections/Projects";
 import { EducationCertifications } from "@/components/sections/EducationCertifications";
 import { Contact } from "@/components/sections/Contact";
 import { Footer } from "@/components/Footer";
-import { ScrollToTop } from "@/components/ScrollToTop";
 
 export default async function Home() {
   const repos = await fetchGitHubRepos();
 
   return (
-    <>
+    <SmoothScroll>
       <Navigation />
       <main>
         <Hero />
@@ -26,7 +26,6 @@ export default async function Home() {
         <Contact />
       </main>
       <Footer />
-      <ScrollToTop />
-    </>
+    </SmoothScroll>
   );
 }

@@ -1,140 +1,154 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetTrigger,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
-import { Menu, Download } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Download, Menu, X } from "lucide-react";
+import { MagneticButton } from "@/components/MagneticButton";
 
-const NAV_LINKS = [
+const NAV_ITEMS = [
   { label: "About", href: "#about" },
   { label: "Skills", href: "#skills" },
   { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },
   { label: "Education", href: "#education" },
   { label: "Contact", href: "#contact" },
-] as const;
+];
 
 export function Navigation() {
-  const [scrolled, setScrolled] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    function handleScroll() {
-      setScrolled(window.scrollY > 50);
-    }
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    const heroEl = document.getElementById("hero");
+    if (!heroEl) return;
 
-  useEffect(() => {
-    const sectionIds = NAV_LINKS.map((link) => link.href.slice(1));
     const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) setActiveSection(entry.target.id);
-        }
+      ([entry]) => {
+        setVisible(!entry.isIntersecting);
       },
-      { rootMargin: "-20% 0px -60% 0px", threshold: 0 }
+      { threshold: 0.1 }
     );
-    for (const id of sectionIds) {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    }
+    observer.observe(heroEl);
     return () => observer.disconnect();
   }, []);
 
-  const handleMobileLinkClick = useCallback(() => {
-    setMobileOpen(false);
+  useEffect(() => {
+    const sectionIds = NAV_ITEMS.map((item) => item.href.slice(1));
+    const observers: IntersectionObserver[] = [];
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) setActiveSection(id);
+        },
+        { rootMargin: "-40% 0px -40% 0px" }
+      );
+      observer.observe(el);
+      observers.push(observer);
+    });
+
+    return () => observers.forEach((o) => o.disconnect());
   }, []);
 
   return (
-    <header
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled
-          ? "glass border-b border-slate-200/80"
-          : "bg-transparent"
-      }`}
-    >
-      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <a href="#" className="text-lg font-bold tracking-tight text-slate-900">
-          C.R.I
-        </a>
+    <>
+      {/* Desktop floating pill */}
+      <nav
+        className={`fixed bottom-8 left-1/2 -translate-x-1/2 z-50 hidden md:flex items-center gap-1 px-2 py-2 rounded-full border transition-all duration-500 ${
+          visible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-4 pointer-events-none"
+        }`}
+        style={{
+          backgroundColor: "rgba(20, 20, 22, 0.8)",
+          backdropFilter: "blur(12px)",
+          borderColor: "rgba(255, 255, 255, 0.08)",
+        }}
+        aria-label="Main navigation"
+      >
+        {NAV_ITEMS.map((item) => (
+          <a
+            key={item.href}
+            href={item.href}
+            className={`relative px-4 py-2 text-xs font-medium uppercase transition-colors duration-300 rounded-full ${
+              activeSection === item.href.slice(1)
+                ? "text-accent"
+                : "text-text-secondary hover:text-accent"
+            }`}
+            style={{ letterSpacing: "0.1em" }}
+          >
+            {item.label}
+            {activeSection === item.href.slice(1) && (
+              <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-accent" />
+            )}
+          </a>
+        ))}
+      </nav>
 
-        <div className="hidden lg:flex items-center gap-1">
-          {NAV_LINKS.map((link) => (
+      {/* Mobile hamburger pill */}
+      <button
+        className={`fixed bottom-8 right-6 z-50 md:hidden flex items-center justify-center w-12 h-12 rounded-full border transition-all duration-500 ${
+          visible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-4 pointer-events-none"
+        }`}
+        style={{
+          backgroundColor: "rgba(20, 20, 22, 0.8)",
+          backdropFilter: "blur(12px)",
+          borderColor: "rgba(255, 255, 255, 0.08)",
+        }}
+        onClick={() => setMobileOpen(true)}
+        aria-label="Open navigation"
+      >
+        <Menu className="w-5 h-5 text-text-primary" />
+      </button>
+
+      {/* Mobile overlay */}
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 z-[60] flex flex-col items-center justify-center gap-8"
+          style={{
+            backgroundColor: "rgba(12, 12, 14, 0.95)",
+            backdropFilter: "blur(4px)",
+          }}
+        >
+          <button
+            className="absolute top-6 right-6 w-12 h-12 flex items-center justify-center rounded-full border"
+            style={{ borderColor: "rgba(255, 255, 255, 0.08)" }}
+            onClick={() => setMobileOpen(false)}
+            aria-label="Close navigation"
+          >
+            <X className="w-5 h-5 text-text-primary" />
+          </button>
+          {NAV_ITEMS.map((item) => (
             <a
-              key={link.href}
-              href={link.href}
-              className={`px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${
-                activeSection === link.href.slice(1)
-                  ? "text-teal-700 bg-teal-50"
-                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/80"
+              key={item.href}
+              href={item.href}
+              onClick={() => setMobileOpen(false)}
+              className={`text-2xl font-medium transition-colors ${
+                activeSection === item.href.slice(1)
+                  ? "text-accent"
+                  : "text-text-primary hover:text-accent"
               }`}
+              style={{ letterSpacing: "0.05em" }}
             >
-              {link.label}
+              {item.label}
             </a>
           ))}
-          <Button
-            variant="outline"
-            size="sm"
-            className="ml-3 border-teal-700/30 text-teal-800 hover:bg-teal-50 hover:border-teal-700 cursor-pointer"
-            render={<a href="/Cristian-Robert-Iosef-CV.pdf" download />}
+          <MagneticButton
+            as="a"
+            href="/Cristian-Robert-Iosef-CV.pdf"
+            download
+            className="mt-4 inline-flex items-center gap-2 px-6 py-3 text-xs font-semibold uppercase border border-accent text-accent rounded-full hover:bg-accent hover:text-background transition-colors"
           >
-              <Download className="size-3.5" data-icon="inline-start" />
-              Download CV
-          </Button>
+            <Download className="w-4 h-4" />
+            Download CV
+          </MagneticButton>
         </div>
-
-        <div className="lg:hidden">
-          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-            <SheetTrigger
-              render={<Button variant="ghost" size="icon" aria-label="Open menu" />}
-            >
-              <Menu className="size-5" />
-            </SheetTrigger>
-            <SheetContent side="right" className="w-72 border-l border-slate-200 bg-white/95 backdrop-blur">
-              <SheetHeader>
-                <SheetTitle className="text-slate-900 font-bold">C.R.I</SheetTitle>
-              </SheetHeader>
-              <div className="flex flex-col gap-1 px-4">
-                {NAV_LINKS.map((link) => (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    onClick={handleMobileLinkClick}
-                    className={`px-3 py-2.5 text-sm font-medium rounded-md transition-colors ${
-                      activeSection === link.href.slice(1)
-                        ? "text-teal-700 bg-teal-50"
-                        : "text-slate-700 hover:text-slate-900 hover:bg-slate-100"
-                    }`}
-                  >
-                    {link.label}
-                  </a>
-                ))}
-              </div>
-              <div className="mt-auto px-4 pb-4">
-                <Button
-                  variant="outline"
-                  size="default"
-                  className="w-full border-teal-700/30 text-teal-800 hover:bg-teal-50 cursor-pointer"
-                  render={<a href="/Cristian-Robert-Iosef-CV.pdf" download className="block" />}
-                >
-                    <Download className="size-4" data-icon="inline-start" />
-                    Download CV
-                </Button>
-              </div>
-            </SheetContent>
-          </Sheet>
-        </div>
-      </nav>
-    </header>
+      )}
+    </>
   );
 }

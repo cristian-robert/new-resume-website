@@ -1,182 +1,75 @@
 "use client";
 
-import { profile } from "@/lib/data";
-import { ScrollAnimator } from "@/components/ScrollAnimator";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Mail, Phone, Linkedin, Globe, Send, Loader2 } from "lucide-react";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { Github, Linkedin } from "lucide-react";
 import { toast } from "sonner";
+import { profile } from "@/lib/data";
+import { GITHUB_USERNAME } from "@/lib/github";
+import { MagneticButton } from "@/components/MagneticButton";
+import { ScrollReveal } from "@/components/ScrollReveal";
 
-const contactSchema = z.object({
-  name: z.string().min(2, "Name is required"),
-  email: z.string().email("Invalid email"),
-  subject: z.string().min(2, "Subject is required"),
-  message: z.string().min(10, "Message must be at least 10 characters"),
-});
-
-type ContactFormData = z.infer<typeof contactSchema>;
-
-const contactLinks = [
-  { icon: Mail, label: "Email", value: profile.email, href: `mailto:${profile.email}` },
-  { icon: Phone, label: "Phone", value: profile.phone, href: `tel:${profile.phone}` },
-  { icon: Linkedin, label: "LinkedIn", value: "cristianrobert-iosef", href: profile.linkedin, external: true },
-  { icon: Globe, label: "Website", value: "criosef-resume.info", href: profile.website, external: true },
-] as const;
+const SOCIAL_LINKS = [
+  {
+    icon: Github,
+    href: `https://github.com/${GITHUB_USERNAME}`,
+    label: "GitHub",
+  },
+  { icon: Linkedin, href: profile.linkedin, label: "LinkedIn" },
+];
 
 export function Contact() {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<ContactFormData>({ resolver: zodResolver(contactSchema) });
-
-  const onSubmit = async (data: ContactFormData) => {
+  const copyEmail = async () => {
     try {
-      const formspreeId = process.env.NEXT_PUBLIC_FORMSPREE_ID;
-      if (!formspreeId) {
-        toast.error("Contact form is not configured yet.");
-        return;
-      }
-      const res = await fetch(`https://formspree.io/f/${formspreeId}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) throw new Error("Failed to send");
-      toast.success("Message sent! I'll get back to you soon.");
-      reset();
+      await navigator.clipboard.writeText(profile.email);
+      toast.success("Email copied to clipboard");
     } catch {
-      toast.error("Something went wrong. Please try again or email me directly.");
+      toast.error("Failed to copy email");
     }
   };
 
   return (
-    <section id="contact" className="relative px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-      <div className="mx-auto max-w-5xl">
-        <ScrollAnimator animation="fadeInUp">
-          <h2 className="mb-4 text-center text-3xl font-bold tracking-tight sm:text-4xl">
-            <span className="text-gradient-accent">Get in Touch</span>
+    <section id="contact" className="py-32 px-6 sm:px-8 lg:px-12">
+      <div className="max-w-6xl mx-auto text-center">
+        <ScrollReveal>
+          <h2
+            className="font-bold text-text-primary mb-6"
+            style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)" }}
+          >
+            Let&apos;s <span className="text-accent">Talk</span>
           </h2>
-          <p className="mx-auto mb-12 max-w-lg text-center text-slate-700">
-            Have a question or want to work together? Drop me a message.
+        </ScrollReveal>
+
+        <ScrollReveal delay={0.1}>
+          <p className="text-text-secondary mb-10 max-w-md mx-auto">
+            Interested in working together or have a question? Reach out
+            directly.
           </p>
-        </ScrollAnimator>
+        </ScrollReveal>
 
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
-          {/* Contact Info */}
-          <div className="space-y-4">
-            {contactLinks.map((item, index) => {
-              const Icon = item.icon;
-              const content = (
-                <div className="glass relative flex items-center gap-4 rounded-xl px-5 py-4 transition-all duration-300 hover:scale-[1.02] cursor-pointer">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-teal-700/10">
-                    <Icon className="h-5 w-5 text-teal-700" />
-                  </span>
-                  <div className="min-w-0">
-                    <p className="text-xs font-medium uppercase tracking-wider text-slate-600">{item.label}</p>
-                    <p className="truncate text-sm font-semibold text-slate-800">{item.value}</p>
-                  </div>
-                </div>
-              );
+        <ScrollReveal delay={0.2}>
+          <button
+            onClick={copyEmail}
+            className="text-lg text-accent hover:underline cursor-pointer mb-10 block mx-auto transition-colors active:text-text-primary"
+          >
+            {profile.email}
+          </button>
+        </ScrollReveal>
 
-              return (
-                <ScrollAnimator key={item.label} animation="fadeInLeft" delay={index * 100}>
-                  {"href" in item && item.href ? (
-                    <a
-                      href={item.href}
-                      {...("external" in item && item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                      className="block"
-                    >
-                      {content}
-                    </a>
-                  ) : (
-                    content
-                  )}
-                </ScrollAnimator>
-              );
-            })}
-          </div>
-
-          {/* Contact Form */}
-          <ScrollAnimator animation="fadeInRight" delay={200}>
-            <form onSubmit={handleSubmit(onSubmit)} className="glass relative space-y-5 rounded-2xl p-6 sm:p-8">
-              <div className="space-y-2">
-                <Label htmlFor="name">Name</Label>
-                <Input
-                  id="name"
-                  placeholder="Your name"
-                  className="h-10 border-slate-300 bg-white/80 focus-visible:border-teal-700 focus-visible:ring-teal-700/25"
-                  aria-invalid={errors.name ? "true" : undefined}
-                  {...register("name")}
-                />
-                {errors.name && <p className="text-xs text-destructive">{errors.name.message}</p>}
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="your@email.com"
-                  className="h-10 border-slate-300 bg-white/80 focus-visible:border-teal-700 focus-visible:ring-teal-700/25"
-                  aria-invalid={errors.email ? "true" : undefined}
-                  {...register("email")}
-                />
-                {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="subject">Subject</Label>
-                <Input
-                  id="subject"
-                  placeholder="What's this about?"
-                  className="h-10 border-slate-300 bg-white/80 focus-visible:border-teal-700 focus-visible:ring-teal-700/25"
-                  aria-invalid={errors.subject ? "true" : undefined}
-                  {...register("subject")}
-                />
-                {errors.subject && <p className="text-xs text-destructive">{errors.subject.message}</p>}
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="message">Message</Label>
-                <Textarea
-                  id="message"
-                  placeholder="Tell me more..."
-                  rows={5}
-                  className="border-slate-300 bg-white/80 focus-visible:border-teal-700 focus-visible:ring-teal-700/25"
-                  aria-invalid={errors.message ? "true" : undefined}
-                  {...register("message")}
-                />
-                {errors.message && <p className="text-xs text-destructive">{errors.message.message}</p>}
-              </div>
-
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                size="lg"
-                className="w-full cursor-pointer bg-teal-700 font-semibold text-white transition-all duration-300 hover:bg-teal-600 hover:shadow-lg hover:shadow-teal-700/20 disabled:opacity-50"
+        <ScrollReveal delay={0.3}>
+          <div className="flex justify-center gap-4">
+            {SOCIAL_LINKS.map((link) => (
+              <MagneticButton
+                key={link.label}
+                as="a"
+                href={link.href}
+                className="flex items-center justify-center w-12 h-12 rounded-full border border-border text-text-secondary hover:bg-accent hover:text-background hover:border-accent transition-all duration-300"
+                strength={0.4}
               >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Sending...
-                  </>
-                ) : (
-                  <>
-                    <Send className="mr-2 h-4 w-4" />
-                    Send Message
-                  </>
-                )}
-              </Button>
-            </form>
-          </ScrollAnimator>
-        </div>
+                <link.icon className="w-5 h-5" />
+                <span className="sr-only">{link.label}</span>
+              </MagneticButton>
+            ))}
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );
