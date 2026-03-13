@@ -1,3 +1,5 @@
+"use client";
+
 import { profile } from "@/lib/data";
 import { GITHUB_USERNAME } from "@/lib/github";
 import { Separator } from "@/components/ui/separator";
