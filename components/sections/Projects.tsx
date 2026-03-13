@@ -1,5 +1,3 @@
-"use client";
-
 import type { GitHubRepo } from "@/lib/data/types";
 import { ScrollAnimator } from "@/components/ScrollAnimator";
 import {
@@ -100,8 +98,8 @@ function RepoCard({ repo }: { repo: GitHubRepo }) {
             {repo.forks}
           </span>
 
-          {/* Updated at */}
-          <span className="ml-auto text-[var(--muted-foreground)]/60">
+          {/* Updated at — suppressHydrationWarning because Date.now() differs between server and client */}
+          <span className="ml-auto text-[var(--muted-foreground)]/60" suppressHydrationWarning>
             Updated {relativeDate(repo.updatedAt)}
           </span>
         </CardFooter>

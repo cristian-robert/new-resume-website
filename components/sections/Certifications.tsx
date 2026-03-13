@@ -1,5 +1,3 @@
-"use client";
-
 import { certifications } from "@/lib/data";
 import { ScrollAnimator } from "@/components/ScrollAnimator";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";

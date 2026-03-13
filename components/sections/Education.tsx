@@ -1,5 +1,3 @@
-"use client";
-
 import { education } from "@/lib/data";
 import { ScrollAnimator } from "@/components/ScrollAnimator";
 import {

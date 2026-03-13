@@ -1,5 +1,3 @@
-"use client";
-
 import { profile, skills } from "@/lib/data";
 import type { SkillCategory } from "@/lib/data";
 import { ScrollAnimator } from "@/components/ScrollAnimator";
