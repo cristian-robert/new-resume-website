@@ -32,17 +32,17 @@ function RepoCard({ repo }: { repo: GitHubRepo }) {
 
   return (
     <a href={repo.url} target="_blank" rel="noopener noreferrer" className="group/repo block h-full">
-      <Card className="glass relative flex h-full flex-col border-l-4 border-l-transparent transition-all duration-300 hover:border-l-emerald-500 hover:shadow-[0_8px_30px_rgba(16,185,129,0.12)] cursor-pointer">
+      <Card className="glass relative flex h-full flex-col border-l-4 border-l-transparent transition-all duration-300 hover:border-l-teal-700 hover:shadow-[0_8px_30px_rgba(15,118,110,0.15)] cursor-pointer">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg font-bold text-emerald-400">
+          <CardTitle className="flex items-center gap-2 text-lg font-bold text-teal-800">
             <span className="min-w-0 truncate">{repo.name}</span>
-            <ExternalLink className="h-4 w-4 shrink-0 text-slate-500 transition-colors duration-200 group-hover/repo:text-emerald-400" />
+            <ExternalLink className="h-4 w-4 shrink-0 text-slate-600 transition-colors duration-200 group-hover/repo:text-teal-700" />
           </CardTitle>
         </CardHeader>
         <CardContent className="flex-1">
-          <p className="line-clamp-3 text-sm leading-relaxed text-slate-400">{repo.description}</p>
+          <p className="line-clamp-3 text-sm leading-relaxed text-slate-700">{repo.description}</p>
         </CardContent>
-        <CardFooter className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-white/[0.06] bg-transparent text-xs text-slate-500">
+        <CardFooter className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-slate-200 bg-transparent text-xs text-slate-600">
           {repo.language && langColor && (
             <span className="flex items-center gap-1.5">
               <span className="inline-block h-3 w-3 rounded-full" style={{ backgroundColor: langColor }} />
@@ -57,7 +57,7 @@ function RepoCard({ repo }: { repo: GitHubRepo }) {
             <GitFork className="h-3.5 w-3.5" />
             {repo.forks}
           </span>
-          <span className="ml-auto text-slate-600" suppressHydrationWarning>
+          <span className="ml-auto text-slate-500" suppressHydrationWarning>
             Updated {relativeDate(repo.updatedAt)}
           </span>
         </CardFooter>
@@ -81,7 +81,7 @@ export function Projects({ repos }: ProjectsProps) {
               href="https://github.com/cristian-robert"
               target="_blank"
               rel="noopener noreferrer"
-              className="ml-3 inline-flex items-center gap-1.5 align-middle text-base font-medium text-slate-500 transition-colors duration-200 hover:text-emerald-400"
+              className="ml-3 inline-flex items-center gap-1.5 align-middle text-base font-medium text-slate-600 transition-colors duration-200 hover:text-teal-700"
             >
               <Github className="h-5 w-5" />
               <span className="hidden sm:inline">@cristian-robert</span>
@@ -101,12 +101,12 @@ export function Projects({ repos }: ProjectsProps) {
           <ScrollAnimator animation="fadeInUp">
             <div className="flex flex-col items-center gap-4 py-16 text-center">
               <Github className="h-12 w-12 text-slate-600" />
-              <p className="text-lg text-slate-400">Projects loading or unavailable.</p>
+              <p className="text-lg text-slate-700">Projects loading or unavailable.</p>
               <a
                 href="https://github.com/cristian-robert"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-6 py-3 text-sm font-medium text-emerald-400 transition-all duration-200 hover:bg-emerald-500/20 cursor-pointer"
+                className="inline-flex items-center gap-2 rounded-lg border border-teal-700/30 bg-teal-700/8 px-6 py-3 text-sm font-medium text-teal-800 transition-all duration-200 hover:bg-teal-700/12 cursor-pointer"
               >
                 <Github className="h-4 w-4" />
                 Check out my GitHub

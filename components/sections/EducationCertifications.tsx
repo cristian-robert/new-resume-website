@@ -18,24 +18,24 @@ export function EducationCertifications() {
         <div className="mb-12 grid grid-cols-1 gap-6 md:grid-cols-2">
           {education.map((entry, index) => (
             <ScrollAnimator key={entry.university} animation="fadeInUp" delay={index * 150}>
-              <Card className="glass border-l-4 border-l-emerald-500/50 transition-all duration-300 hover:border-l-emerald-500">
+              <Card className="glass border-l-4 border-l-teal-700/50 transition-all duration-300 hover:border-l-teal-700">
                 <CardHeader className="flex flex-row items-start gap-3 space-y-0 pb-2">
-                  <GraduationCap className="mt-0.5 h-6 w-6 shrink-0 text-emerald-400" />
+                  <GraduationCap className="mt-0.5 h-6 w-6 shrink-0 text-teal-700" />
                   <div className="min-w-0 flex-1">
-                    <CardTitle className="text-base font-bold leading-snug text-emerald-400">
+                    <CardTitle className="text-base font-bold leading-snug text-teal-800">
                       {entry.university}
                     </CardTitle>
                   </div>
                 </CardHeader>
                 <CardContent className="pl-12">
-                  <p className="mb-3 text-sm font-medium text-slate-200">
+                  <p className="mb-3 text-sm font-medium text-slate-800">
                     {entry.degree}
                     {" · "}
-                    <span className="text-slate-400">{entry.field}</span>
+                    <span className="text-slate-700">{entry.field}</span>
                   </p>
                   <Badge
                     variant="outline"
-                    className="border-emerald-500/30 bg-emerald-500/10 text-[10px] text-emerald-300"
+                    className="border-teal-700/30 bg-teal-700/8 text-[10px] text-teal-800"
                   >
                     {entry.period}
                   </Badge>
@@ -49,18 +49,18 @@ export function EducationCertifications() {
         <ScrollAnimator animation="fadeInUp" delay={300}>
           <div>
             <div className="mb-4 flex items-center gap-3">
-              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
-              <h3 className="shrink-0 text-sm font-semibold tracking-widest uppercase text-emerald-600">
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-teal-700/20 to-transparent" />
+              <h3 className="shrink-0 text-sm font-semibold tracking-widest uppercase text-teal-700">
                 Certifications
               </h3>
-              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-teal-700/20 to-transparent" />
             </div>
             <div className="flex flex-wrap gap-2">
               {certifications.map((cert) => (
                 <Badge
                   key={cert.name}
                   variant="outline"
-                  className="border-emerald-500/20 bg-emerald-500/8 px-3 py-1.5 text-xs text-emerald-300 transition-colors hover:bg-emerald-500/15"
+                  className="border-teal-700/25 bg-teal-700/8 px-3 py-1.5 text-xs text-teal-800 transition-colors hover:bg-teal-700/15"
                 >
                   <Award className="mr-1.5 h-3 w-3" />
                   {cert.name}

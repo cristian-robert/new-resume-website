@@ -23,10 +23,10 @@ export function ScrollToTop() {
       variant="outline"
       size="icon"
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      className="fixed right-6 bottom-6 z-50 h-10 w-10 rounded-full border-emerald-500/40 bg-slate-900/80 backdrop-blur transition-all duration-300 hover:border-emerald-500 hover:bg-emerald-500/10 cursor-pointer"
+      className="fixed right-6 bottom-6 z-50 h-10 w-10 rounded-full border-teal-700/30 bg-white/90 backdrop-blur transition-all duration-300 hover:border-teal-700 hover:bg-teal-700/10 cursor-pointer"
       aria-label="Scroll to top"
     >
-      <ArrowUp className="h-4 w-4 text-emerald-400" />
+      <ArrowUp className="h-4 w-4 text-teal-700" />
     </Button>
   );
 }

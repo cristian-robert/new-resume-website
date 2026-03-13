@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 const ANIMATION_CLASSES = {
@@ -26,43 +25,12 @@ export function ScrollAnimator({
   className,
   animation = "fadeInUp",
   delay = 0,
-  threshold = 0.1,
-  once = true,
 }: ScrollAnimatorProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          if (once) observer.unobserve(el);
-        } else if (!once) {
-          setIsVisible(false);
-        }
-      },
-      { threshold }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [threshold, once]);
-
   return (
     <div
-      ref={ref}
-      className={cn(
-        "opacity-0",
-        isVisible && ANIMATION_CLASSES[animation],
-        isVisible && "opacity-100",
-        className
-      )}
+      className={cn("motion-reduce:animate-none", ANIMATION_CLASSES[animation], className)}
       style={{
-        animationDelay: isVisible ? `${delay}ms` : undefined,
+        animationDelay: `${delay}ms`,
         animationFillMode: "both",
       }}
     >

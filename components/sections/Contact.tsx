@@ -63,7 +63,7 @@ export function Contact() {
           <h2 className="mb-4 text-center text-3xl font-bold tracking-tight sm:text-4xl">
             <span className="text-gradient-accent">Get in Touch</span>
           </h2>
-          <p className="mx-auto mb-12 max-w-lg text-center text-slate-400">
+          <p className="mx-auto mb-12 max-w-lg text-center text-slate-700">
             Have a question or want to work together? Drop me a message.
           </p>
         </ScrollAnimator>
@@ -75,12 +75,12 @@ export function Contact() {
               const Icon = item.icon;
               const content = (
                 <div className="glass relative flex items-center gap-4 rounded-xl px-5 py-4 transition-all duration-300 hover:scale-[1.02] cursor-pointer">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10">
-                    <Icon className="h-5 w-5 text-emerald-400" />
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-teal-700/10">
+                    <Icon className="h-5 w-5 text-teal-700" />
                   </span>
                   <div className="min-w-0">
-                    <p className="text-xs font-medium uppercase tracking-wider text-slate-500">{item.label}</p>
-                    <p className="truncate text-sm font-semibold text-slate-200">{item.value}</p>
+                    <p className="text-xs font-medium uppercase tracking-wider text-slate-600">{item.label}</p>
+                    <p className="truncate text-sm font-semibold text-slate-800">{item.value}</p>
                   </div>
                 </div>
               );
@@ -111,7 +111,7 @@ export function Contact() {
                 <Input
                   id="name"
                   placeholder="Your name"
-                  className="h-10 border-emerald-500/20 bg-transparent focus-visible:border-emerald-500 focus-visible:ring-emerald-500/30"
+                  className="h-10 border-slate-300 bg-white/80 focus-visible:border-teal-700 focus-visible:ring-teal-700/25"
                   aria-invalid={errors.name ? "true" : undefined}
                   {...register("name")}
                 />
@@ -124,7 +124,7 @@ export function Contact() {
                   id="email"
                   type="email"
                   placeholder="your@email.com"
-                  className="h-10 border-emerald-500/20 bg-transparent focus-visible:border-emerald-500 focus-visible:ring-emerald-500/30"
+                  className="h-10 border-slate-300 bg-white/80 focus-visible:border-teal-700 focus-visible:ring-teal-700/25"
                   aria-invalid={errors.email ? "true" : undefined}
                   {...register("email")}
                 />
@@ -136,7 +136,7 @@ export function Contact() {
                 <Input
                   id="subject"
                   placeholder="What's this about?"
-                  className="h-10 border-emerald-500/20 bg-transparent focus-visible:border-emerald-500 focus-visible:ring-emerald-500/30"
+                  className="h-10 border-slate-300 bg-white/80 focus-visible:border-teal-700 focus-visible:ring-teal-700/25"
                   aria-invalid={errors.subject ? "true" : undefined}
                   {...register("subject")}
                 />
@@ -149,7 +149,7 @@ export function Contact() {
                   id="message"
                   placeholder="Tell me more..."
                   rows={5}
-                  className="border-emerald-500/20 bg-transparent focus-visible:border-emerald-500 focus-visible:ring-emerald-500/30"
+                  className="border-slate-300 bg-white/80 focus-visible:border-teal-700 focus-visible:ring-teal-700/25"
                   aria-invalid={errors.message ? "true" : undefined}
                   {...register("message")}
                 />
@@ -160,7 +160,7 @@ export function Contact() {
                 type="submit"
                 disabled={isSubmitting}
                 size="lg"
-                className="w-full cursor-pointer bg-emerald-500 font-semibold text-slate-950 transition-all duration-300 hover:bg-emerald-400 hover:shadow-lg hover:shadow-emerald-500/20 disabled:opacity-50"
+                className="w-full cursor-pointer bg-teal-700 font-semibold text-white transition-all duration-300 hover:bg-teal-600 hover:shadow-lg hover:shadow-teal-700/20 disabled:opacity-50"
               >
                 {isSubmitting ? (
                   <>

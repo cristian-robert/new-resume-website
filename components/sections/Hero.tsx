@@ -55,49 +55,47 @@ export function Hero() {
 
         {/* Typed text — terminal style */}
         <div className="animate-fadeInUp animation-delay-100 mb-8 flex items-center justify-center gap-1">
-          <span className="font-mono text-lg text-emerald-400 sm:text-xl md:text-2xl">
+          <span className="font-mono text-lg text-teal-700 sm:text-xl md:text-2xl">
             {">"}&nbsp;
           </span>
-          <span className="font-mono text-lg text-slate-400 sm:text-xl md:text-2xl">
+          <span className="font-mono text-lg text-slate-700 sm:text-xl md:text-2xl">
             {typedText}
           </span>
-          <span className="animate-blink-cursor inline-block h-6 w-[2px] translate-y-[1px] bg-emerald-400 sm:h-7 md:h-8" />
+          <span className="animate-blink-cursor inline-block h-6 w-[2px] translate-y-[1px] bg-teal-700 sm:h-7 md:h-8" />
         </div>
 
         {/* Summary */}
-        <p className="animate-fadeInUp animation-delay-200 mx-auto mb-10 max-w-2xl text-base leading-relaxed text-slate-400 sm:text-lg">
+        <p className="animate-fadeInUp animation-delay-200 mx-auto mb-10 max-w-2xl text-base leading-relaxed text-slate-700 sm:text-lg">
           {shortSummary}
         </p>
 
         {/* CTA Buttons */}
         <div className="animate-fadeInUp animation-delay-300 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <a href="#experience">
-            <Button
-              size="lg"
-              className="glow-accent cursor-pointer gap-2 bg-emerald-500 px-6 py-5 text-sm font-semibold text-slate-950 transition-all duration-300 hover:bg-emerald-400 hover:shadow-lg sm:text-base"
-            >
+          <Button
+            size="lg"
+            className="glow-accent cursor-pointer gap-2 bg-teal-700 px-6 py-5 text-sm font-semibold text-white transition-all duration-300 hover:bg-teal-600 hover:shadow-lg sm:text-base"
+            render={<a href="#experience" />}
+          >
               View My Work
               <ArrowDown className="size-4" />
-            </Button>
-          </a>
-          <a href="#contact">
-            <Button
-              variant="outline"
-              size="lg"
-              className="cursor-pointer gap-2 border-emerald-500/30 px-6 py-5 text-sm font-semibold text-emerald-400 transition-all duration-300 hover:border-emerald-400 hover:bg-emerald-500/10 sm:text-base"
-            >
+          </Button>
+          <Button
+            variant="outline"
+            size="lg"
+            className="cursor-pointer gap-2 border-teal-700/30 bg-white/70 px-6 py-5 text-sm font-semibold text-slate-800 transition-all duration-300 hover:border-teal-700 hover:bg-teal-50 sm:text-base"
+            render={<a href="#contact" />}
+          >
               <Mail className="size-4" />
               Get in Touch
-            </Button>
-          </a>
+          </Button>
         </div>
       </div>
 
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-fadeInUp animation-delay-500">
-        <div className="flex flex-col items-center gap-2 text-slate-500 opacity-60" aria-hidden="true">
+        <div className="flex flex-col items-center gap-2 text-slate-600 opacity-70" aria-hidden="true">
           <span className="text-xs tracking-widest uppercase">Scroll</span>
-          <div className="h-8 w-[1px] bg-emerald-500/40 animate-pulse" />
+          <div className="h-8 w-[1px] bg-teal-600/40 animate-pulse" />
         </div>
       </div>
     </section>

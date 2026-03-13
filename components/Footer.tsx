@@ -29,21 +29,21 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative mt-auto overflow-hidden bg-slate-950">
+    <footer className="relative mt-auto overflow-hidden bg-white/85 backdrop-blur">
       {/* Top gradient border */}
-      <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent" />
+      <div className="h-px bg-gradient-to-r from-transparent via-teal-700/30 to-transparent" />
 
-      <Separator className="bg-white/[0.06]" />
+      <Separator className="bg-slate-200" />
 
       <div className="relative mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
           {/* Name — left */}
-          <span className="text-sm font-semibold tracking-wide text-emerald-400">
+          <span className="text-sm font-semibold tracking-wide text-teal-800">
             {profile.name}
           </span>
 
           {/* Copyright — center */}
-          <span className="order-last text-xs text-slate-500 sm:order-none" suppressHydrationWarning>
+          <span className="order-last text-xs text-slate-600 sm:order-none" suppressHydrationWarning>
             &copy; {year} Cristian-Robert Iosef
           </span>
 
@@ -60,7 +60,7 @@ export function Footer() {
                 aria-label={label}
                 className={cn(
                   buttonVariants({ variant: "ghost", size: "icon" }),
-                  "h-8 w-8 text-slate-500 transition-colors duration-200 hover:bg-emerald-500/10 hover:text-emerald-400 cursor-pointer"
+                  "h-8 w-8 text-slate-600 transition-colors duration-200 hover:bg-teal-700/10 hover:text-teal-700 cursor-pointer"
                 )}
               >
                 <Icon className="h-4 w-4" />

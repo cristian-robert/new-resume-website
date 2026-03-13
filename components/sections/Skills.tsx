@@ -11,15 +11,15 @@ function SkillCard({ category }: { category: SkillCategory }) {
     <Card
       className={`glass relative border-l-4 transition-all duration-300 hover:scale-[1.02] cursor-pointer ${
         isEmphasized
-          ? "border-l-emerald-500 glow-accent"
-          : "border-l-white/[0.08]"
+          ? "border-l-teal-700 glow-accent"
+          : "border-l-slate-200"
       }`}
     >
       <CardHeader>
-        <CardTitle className={`text-lg font-bold ${isEmphasized ? "text-emerald-400" : "text-slate-100"}`}>
+        <CardTitle className={`text-lg font-bold ${isEmphasized ? "text-teal-800" : "text-slate-900"}`}>
           {category.name}
           {isEmphasized && (
-            <Badge className="ml-2 border-emerald-500/30 bg-emerald-500/15 text-[10px] text-emerald-400">
+            <Badge className="ml-2 border-teal-700/30 bg-teal-700/10 text-[10px] text-teal-700">
               Core
             </Badge>
           )}
@@ -33,8 +33,8 @@ function SkillCard({ category }: { category: SkillCategory }) {
               variant="outline"
               className={`text-xs transition-colors duration-200 ${
                 isEmphasized
-                  ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20"
-                  : "border-white/[0.08] bg-slate-800/40 text-slate-400 hover:bg-slate-800/70 hover:text-slate-200"
+                  ? "border-teal-700/25 bg-teal-700/10 text-teal-800 hover:bg-teal-700/15"
+                  : "border-slate-300 bg-white/70 text-slate-700 hover:bg-slate-100 hover:text-slate-900"
               }`}
             >
               {skill}

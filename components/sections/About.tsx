@@ -24,15 +24,15 @@ function CategoryCard({ category }: { category: SkillCategory }) {
     <div
       className={`glass relative flex items-center gap-3 rounded-xl px-4 py-3 transition-all duration-300 hover:scale-[1.03] cursor-pointer ${
         isEmphasized
-          ? "border border-emerald-500/30 glow-accent"
-          : "border border-transparent"
+          ? "border border-teal-700/25 glow-accent"
+          : "border border-slate-200/80"
       }`}
     >
       <span
         className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg font-mono text-xs font-bold ${
           isEmphasized
-            ? "bg-emerald-500/15 text-emerald-400"
-            : "bg-slate-800 text-slate-400"
+            ? "bg-teal-700/10 text-teal-700"
+            : "bg-slate-200 text-slate-700"
         }`}
       >
         {icon}
@@ -40,12 +40,12 @@ function CategoryCard({ category }: { category: SkillCategory }) {
       <div className="min-w-0">
         <p
           className={`text-sm font-semibold leading-tight ${
-            isEmphasized ? "text-emerald-400" : "text-slate-200"
+            isEmphasized ? "text-teal-800" : "text-slate-800"
           }`}
         >
           {category.name}
         </p>
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-slate-600">
           {category.skills.length} skill{category.skills.length !== 1 ? "s" : ""}
         </p>
       </div>
@@ -56,9 +56,9 @@ function CategoryCard({ category }: { category: SkillCategory }) {
 function StatCard({ value, label, delay }: { value: string; label: string; delay: number }) {
   return (
     <ScrollAnimator animation="scaleIn" delay={delay}>
-      <div className="flex flex-col items-center gap-1 rounded-xl border border-white/[0.08] bg-slate-900/40 px-4 py-5 text-center">
-        <span className="text-3xl font-bold text-emerald-400 sm:text-4xl">{value}</span>
-        <span className="text-xs font-medium tracking-wide text-slate-500 uppercase">{label}</span>
+      <div className="flex flex-col items-center gap-1 rounded-xl border border-slate-200 bg-white/85 px-4 py-5 text-center">
+        <span className="text-3xl font-bold text-teal-700 sm:text-4xl">{value}</span>
+        <span className="text-xs font-medium tracking-wide text-slate-600 uppercase">{label}</span>
       </div>
     </ScrollAnimator>
   );
@@ -82,7 +82,7 @@ export function About() {
           <div className="space-y-6">
             {profile.summary.slice(0, 2).map((paragraph, i) => (
               <ScrollAnimator key={i} animation="fadeInUp" delay={100 + i * 100}>
-                <p className="text-base leading-relaxed text-slate-400 sm:text-lg">{paragraph}</p>
+                <p className="text-base leading-relaxed text-slate-700 sm:text-lg">{paragraph}</p>
               </ScrollAnimator>
             ))}
           </div>
@@ -99,11 +99,11 @@ export function About() {
         <ScrollAnimator animation="fadeInUp" delay={500}>
           <div>
             <div className="mb-6 flex items-center gap-3">
-              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
-              <h3 className="shrink-0 text-sm font-semibold tracking-widest uppercase text-emerald-600">
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-teal-700/20 to-transparent" />
+              <h3 className="shrink-0 text-sm font-semibold tracking-widest uppercase text-teal-700">
                 Tech Stack Overview
               </h3>
-              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-teal-700/20 to-transparent" />
             </div>
 
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -115,7 +115,7 @@ export function About() {
             </div>
 
             <p className="mt-4 text-center text-xs text-slate-600">
-              <Badge variant="outline" className="mr-1 border-emerald-500/30 text-[10px] text-emerald-600">
+              <Badge variant="outline" className="mr-1 border-teal-700/30 text-[10px] text-teal-700">
                 highlighted
               </Badge>
               categories represent core specializations

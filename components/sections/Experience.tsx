@@ -19,14 +19,14 @@ function TimelineNode({ current, index }: { current: boolean; index: number }) {
       <div
         className={`relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 transition-all duration-300 ${
           current
-            ? "border-emerald-500 bg-emerald-500/20 glow-accent"
-            : "border-slate-600 bg-slate-800"
+            ? "border-teal-700 bg-teal-700/12 glow-accent"
+            : "border-slate-300 bg-slate-100"
         }`}
       >
         {current ? (
-          <Briefcase className="h-4 w-4 text-emerald-400" />
+          <Briefcase className="h-4 w-4 text-teal-700" />
         ) : (
-          <span className="font-mono text-xs font-bold text-slate-400">
+          <span className="font-mono text-xs font-bold text-slate-700">
             {String(experience.length - index).padStart(2, "0")}
           </span>
         )}
@@ -41,29 +41,29 @@ function ExperienceCard({ entry }: { entry: ExperienceEntry }) {
   return (
     <Card
       className={`glass relative border-l-4 transition-all duration-300 ${
-        isCurrent ? "border-l-emerald-500 glow-accent" : "border-l-white/[0.08]"
+        isCurrent ? "border-l-teal-700 glow-accent" : "border-l-slate-200"
       }`}
     >
       <CardContent className="pt-5">
         <div className="mb-2 flex flex-wrap items-center gap-2">
-          <h3 className={`text-lg font-bold ${isCurrent ? "text-emerald-400" : "text-slate-100"}`}>
+          <h3 className={`text-lg font-bold ${isCurrent ? "text-teal-800" : "text-slate-900"}`}>
             {entry.company}
           </h3>
           {isCurrent && (
-            <Badge className="border-emerald-500/30 bg-emerald-500/15 text-emerald-400 text-[10px] font-semibold uppercase tracking-wider">
+            <Badge className="border-teal-700/30 bg-teal-700/10 text-teal-700 text-[10px] font-semibold uppercase tracking-wider">
               Current
             </Badge>
           )}
         </div>
 
-        <p className="mb-3 text-sm font-medium text-slate-200">{entry.role}</p>
+        <p className="mb-3 text-sm font-medium text-slate-800">{entry.role}</p>
 
-        <div className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500">
+        <div className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-600">
           <span className="flex items-center gap-1">
             <Calendar className="h-3 w-3" />
             {entry.period}
           </span>
-          <Badge variant="outline" className="border-white/[0.08] text-[10px] text-slate-500">
+          <Badge variant="outline" className="border-slate-300 text-[10px] text-slate-600">
             {entry.duration}
           </Badge>
           <span className="flex items-center gap-1">
@@ -72,27 +72,27 @@ function ExperienceCard({ entry }: { entry: ExperienceEntry }) {
           </span>
         </div>
 
-        <p className="mb-2 text-sm leading-relaxed text-slate-400">{entry.description}</p>
+        <p className="mb-2 text-sm leading-relaxed text-slate-700">{entry.description}</p>
 
         <Accordion>
           <AccordionItem className="border-b-0">
             <AccordionTrigger className="py-2 text-xs font-semibold tracking-wide uppercase hover:no-underline cursor-pointer">
-              <span className={`flex items-center gap-1 ${isCurrent ? "text-emerald-600" : "text-slate-500"}`}>
+              <span className={`flex items-center gap-1 ${isCurrent ? "text-teal-700" : "text-slate-600"}`}>
                 <ChevronRight className="h-3 w-3" />
                 View Details
               </span>
             </AccordionTrigger>
             <AccordionContent>
               <div className="mb-4">
-                <h4 className="mb-2 text-xs font-semibold tracking-wide uppercase text-slate-500">
+                <h4 className="mb-2 text-xs font-semibold tracking-wide uppercase text-slate-600">
                   Key Achievements
                 </h4>
                 <ul className="space-y-1.5">
                   {entry.achievements.map((achievement, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm leading-relaxed text-slate-400">
+                    <li key={i} className="flex items-start gap-2 text-sm leading-relaxed text-slate-700">
                       <span
                         className={`mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full ${
-                          isCurrent ? "bg-emerald-500" : "bg-slate-600"
+                          isCurrent ? "bg-teal-700" : "bg-slate-500"
                         }`}
                       />
                       {achievement}
@@ -101,7 +101,7 @@ function ExperienceCard({ entry }: { entry: ExperienceEntry }) {
                 </ul>
               </div>
               <div>
-                <h4 className="mb-2 text-xs font-semibold tracking-wide uppercase text-slate-500">
+                <h4 className="mb-2 text-xs font-semibold tracking-wide uppercase text-slate-600">
                   Technologies
                 </h4>
                 <div className="flex flex-wrap gap-1.5">
@@ -111,8 +111,8 @@ function ExperienceCard({ entry }: { entry: ExperienceEntry }) {
                       variant="outline"
                       className={`text-[10px] transition-colors duration-200 ${
                         isCurrent
-                          ? "border-emerald-500/20 bg-emerald-500/8 text-emerald-300 hover:bg-emerald-500/15"
-                          : "border-white/[0.08] bg-slate-800/40 text-slate-400 hover:bg-slate-800/70"
+                          ? "border-teal-700/25 bg-teal-700/8 text-teal-800 hover:bg-teal-700/12"
+                          : "border-slate-300 bg-white/75 text-slate-700 hover:bg-slate-100"
                       }`}
                     >
                       {tech}
@@ -142,7 +142,7 @@ export function Experience() {
           <div
             className="absolute top-0 left-5 h-full w-px"
             style={{
-              background: "linear-gradient(to bottom, #10B981, #059669, #334155, transparent)",
+              background: "linear-gradient(to bottom, #0f766e, #14b8a6, #94a3b8, transparent)",
             }}
           />
 
@@ -162,7 +162,7 @@ export function Experience() {
           </div>
 
           <div className="absolute bottom-0 left-5 flex -translate-x-[3px]">
-            <div className="h-2 w-2 rounded-full bg-slate-600" />
+            <div className="h-2 w-2 rounded-full bg-slate-500" />
           </div>
         </div>
       </div>
