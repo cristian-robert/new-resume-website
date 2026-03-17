@@ -1,127 +1,104 @@
 import { profile, skills } from "@/lib/data";
-import type { SkillCategory } from "@/lib/data";
-import { getProfileStats } from "@/lib/stats";
-import { ScrollAnimator } from "@/components/ScrollAnimator";
-import { Badge } from "@/components/ui/badge";
+import { ScrollReveal } from "@/components/ScrollReveal";
 
-const CATEGORY_ICONS: Record<string, string> = {
-  "Programming Languages": "{ }",
-  Frontend: "</>",
-  "Testing & Automation": "QA",
-  "Backend & Frameworks": "API",
-  "CI/CD & DevOps": "CI",
-  Databases: "DB",
-  "Tools & Platforms": "CLI",
-  "AI & LLMs": "AI",
-  "Spoken Languages": "Aa",
-};
+const QA_DOMAINS = [
+  "E2E Testing",
+  "API Testing",
+  "Performance Testing",
+  "BDD/TDD",
+  "CI/CD Integration",
+  "Cloud Testing",
+];
 
-function CategoryCard({ category }: { category: SkillCategory }) {
-  const icon = CATEGORY_ICONS[category.name] ?? "...";
-  const isEmphasized = category.emphasis;
-
-  return (
-    <div
-      className={`glass relative flex items-center gap-3 rounded-xl px-4 py-3 transition-all duration-300 hover:scale-[1.03] cursor-pointer ${
-        isEmphasized
-          ? "border border-emerald-500/30 glow-accent"
-          : "border border-transparent"
-      }`}
-    >
-      <span
-        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg font-mono text-xs font-bold ${
-          isEmphasized
-            ? "bg-emerald-500/15 text-emerald-400"
-            : "bg-slate-800 text-slate-400"
-        }`}
-      >
-        {icon}
-      </span>
-      <div className="min-w-0">
-        <p
-          className={`text-sm font-semibold leading-tight ${
-            isEmphasized ? "text-emerald-400" : "text-slate-200"
-          }`}
-        >
-          {category.name}
-        </p>
-        <p className="text-xs text-slate-500">
-          {category.skills.length} skill{category.skills.length !== 1 ? "s" : ""}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function StatCard({ value, label, delay }: { value: string; label: string; delay: number }) {
-  return (
-    <ScrollAnimator animation="scaleIn" delay={delay}>
-      <div className="flex flex-col items-center gap-1 rounded-xl border border-white/[0.08] bg-slate-900/40 px-4 py-5 text-center">
-        <span className="text-3xl font-bold text-emerald-400 sm:text-4xl">{value}</span>
-        <span className="text-xs font-medium tracking-wide text-slate-500 uppercase">{label}</span>
-      </div>
-    </ScrollAnimator>
-  );
-}
+const STRENGTHS = [
+  "Framework architecture from scratch",
+  "Multi-stack automation (Java + TypeScript)",
+  "Enterprise-grade test infrastructure",
+];
 
 export function About() {
-  const techCategories = skills.filter((c) => c.name !== "Spoken Languages");
-  const stats = getProfileStats();
+  const topTech = skills
+    .filter((s) => s.emphasis)
+    .flatMap((s) => s.skills)
+    .slice(0, 12);
 
   return (
-    <section id="about" className="relative px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-      <div className="mx-auto max-w-5xl">
-        <ScrollAnimator animation="fadeInUp">
-          <h2 className="mb-12 text-center text-3xl font-bold tracking-tight sm:text-4xl">
-            <span className="text-gradient-accent">About Me</span>
+    <section id="about" className="py-32 px-6 sm:px-8 lg:px-12">
+      <div className="max-w-6xl mx-auto">
+        <ScrollReveal>
+          <h2
+            className="font-bold text-text-primary mb-16"
+            style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)" }}
+          >
+            Short <span className="text-accent">Profile</span>
           </h2>
-        </ScrollAnimator>
+        </ScrollReveal>
 
-        {/* Two-column: summary + stats */}
-        <div className="mb-16 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
-          <div className="space-y-6">
-            {profile.summary.slice(0, 2).map((paragraph, i) => (
-              <ScrollAnimator key={i} animation="fadeInUp" delay={100 + i * 100}>
-                <p className="text-base leading-relaxed text-slate-400 sm:text-lg">{paragraph}</p>
-              </ScrollAnimator>
-            ))}
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <ScrollReveal className="lg:col-span-2 md:col-span-2 bg-surface border border-border rounded-2xl p-6 hover:border-border-hover hover:shadow-[0_0_30px_var(--accent-glow)] transition-all duration-300">
+            <p className="text-xs font-medium uppercase text-text-muted mb-4" style={{ letterSpacing: "0.1em" }}>
+              About
+            </p>
+            <p className="text-text-secondary leading-relaxed">
+              {profile.summary[0]}
+            </p>
+          </ScrollReveal>
 
-          <div className="grid grid-cols-2 gap-4">
-            <StatCard value={`${stats.yearsOfExperience}+`} label="Years Experience" delay={200} />
-            <StatCard value={`${stats.companies}`} label="Companies" delay={300} />
-            <StatCard value={`${stats.testingFrameworks}+`} label="Test Frameworks" delay={400} />
-            <StatCard value={`${stats.totalTechnologies}+`} label="Technologies" delay={500} />
-          </div>
-        </div>
-
-        {/* Tech Stack Overview */}
-        <ScrollAnimator animation="fadeInUp" delay={500}>
-          <div>
-            <div className="mb-6 flex items-center gap-3">
-              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
-              <h3 className="shrink-0 text-sm font-semibold tracking-widest uppercase text-emerald-600">
-                Tech Stack Overview
-              </h3>
-              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
-            </div>
-
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              {techCategories.map((category, i) => (
-                <ScrollAnimator key={category.name} animation="fadeInUp" delay={600 + i * 80}>
-                  <CategoryCard category={category} />
-                </ScrollAnimator>
+          <ScrollReveal delay={0.1} className="lg:col-span-2 bg-surface border border-border rounded-2xl p-6 hover:border-border-hover hover:shadow-[0_0_30px_var(--accent-glow)] transition-all duration-300">
+            <p className="text-xs font-medium uppercase text-text-muted mb-4" style={{ letterSpacing: "0.1em" }}>
+              Tech Stack
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {topTech.map((tech) => (
+                <span key={tech} className="px-3 py-1 text-xs bg-surface-hover border border-border rounded-lg text-text-secondary">
+                  {tech}
+                </span>
               ))}
             </div>
+          </ScrollReveal>
 
-            <p className="mt-4 text-center text-xs text-slate-600">
-              <Badge variant="outline" className="mr-1 border-emerald-500/30 text-[10px] text-emerald-600">
-                highlighted
-              </Badge>
-              categories represent core specializations
+          <ScrollReveal delay={0.2} className="lg:col-span-1 bg-surface border border-border rounded-2xl p-6 hover:border-border-hover hover:shadow-[0_0_30px_var(--accent-glow)] transition-all duration-300">
+            <p className="text-xs font-medium uppercase text-text-muted mb-4" style={{ letterSpacing: "0.1em" }}>
+              Domains
             </p>
-          </div>
-        </ScrollAnimator>
+            <div className="flex flex-col gap-2">
+              {QA_DOMAINS.map((d) => (
+                <span key={d} className="text-xs text-text-secondary">{d}</span>
+              ))}
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.3} className="bg-surface border border-border rounded-2xl p-6 hover:border-border-hover hover:shadow-[0_0_30px_var(--accent-glow)] transition-all duration-300">
+            <p className="text-xs font-medium uppercase text-text-muted mb-4" style={{ letterSpacing: "0.1em" }}>
+              Location
+            </p>
+            <p className="text-2xl mb-1">🇷🇴</p>
+            <p className="text-sm text-text-secondary">{profile.location}</p>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.4} className="lg:col-span-2 bg-surface border border-border rounded-2xl p-6 hover:border-border-hover hover:shadow-[0_0_30px_var(--accent-glow)] transition-all duration-300">
+            <p className="text-xs font-medium uppercase text-text-muted mb-4" style={{ letterSpacing: "0.1em" }}>
+              Strengths
+            </p>
+            <ul className="space-y-2">
+              {STRENGTHS.map((s) => (
+                <li key={s} className="text-sm text-text-secondary flex items-start gap-2">
+                  <span className="text-accent mt-1 text-xs">▸</span>
+                  {s}
+                </li>
+              ))}
+            </ul>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.5} className="lg:col-span-2 bg-surface border border-border rounded-2xl p-6 hover:border-border-hover hover:shadow-[0_0_30px_var(--accent-glow)] transition-all duration-300 flex flex-col justify-between">
+            <p className="text-xs font-medium uppercase text-text-muted mb-4" style={{ letterSpacing: "0.1em" }}>
+              Contact
+            </p>
+            <a href={`mailto:${profile.email}`} className="text-accent hover:underline text-sm break-all">
+              {profile.email}
+            </a>
+          </ScrollReveal>
+        </div>
       </div>
     </section>
   );
