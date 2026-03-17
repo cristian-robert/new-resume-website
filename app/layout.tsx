@@ -1,23 +1,11 @@
 import type { Metadata } from "next";
-import { Syne, Outfit, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
-const syne = Syne({
-  variable: "--font-sans",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const outfit = Outfit({
-  variable: "--font-body",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
+const jetbrainsMono = localFont({
+  src: "../public/fonts/JetBrainsMono-Variable.ttf",
   variable: "--font-mono",
-  subsets: ["latin"],
   display: "swap",
 });
 
@@ -44,9 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${syne.variable} ${outfit.variable} ${jetbrainsMono.variable} antialiased`}
-      >
+      <body className={jetbrainsMono.variable}>
         {children}
         <Toaster />
       </body>

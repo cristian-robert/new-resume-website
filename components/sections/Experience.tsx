@@ -1,168 +1,141 @@
 "use client";
 
+import { useState } from "react";
+import { ChevronRight, MapPin, Calendar } from "lucide-react";
 import { experience } from "@/lib/data";
-import type { ExperienceEntry } from "@/lib/data";
-import { ScrollAnimator } from "@/components/ScrollAnimator";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { MapPin, Calendar, Briefcase, ChevronRight } from "lucide-react";
-
-function TimelineNode({ current, index }: { current: boolean; index: number }) {
-  return (
-    <div className="relative flex flex-col items-center">
-      <div
-        className={`relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 transition-all duration-300 ${
-          current
-            ? "border-teal-700 bg-teal-700/12 glow-accent"
-            : "border-slate-300 bg-slate-100"
-        }`}
-      >
-        {current ? (
-          <Briefcase className="h-4 w-4 text-teal-700" />
-        ) : (
-          <span className="font-mono text-xs font-bold text-slate-700">
-            {String(experience.length - index).padStart(2, "0")}
-          </span>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function ExperienceCard({ entry }: { entry: ExperienceEntry }) {
-  const isCurrent = entry.current;
-
-  return (
-    <Card
-      className={`glass relative border-l-4 transition-all duration-300 ${
-        isCurrent ? "border-l-teal-700 glow-accent" : "border-l-slate-200"
-      }`}
-    >
-      <CardContent className="pt-5">
-        <div className="mb-2 flex flex-wrap items-center gap-2">
-          <h3 className={`text-lg font-bold ${isCurrent ? "text-teal-800" : "text-slate-900"}`}>
-            {entry.company}
-          </h3>
-          {isCurrent && (
-            <Badge className="border-teal-700/30 bg-teal-700/10 text-teal-700 text-[10px] font-semibold uppercase tracking-wider">
-              Current
-            </Badge>
-          )}
-        </div>
-
-        <p className="mb-3 text-sm font-medium text-slate-800">{entry.role}</p>
-
-        <div className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-600">
-          <span className="flex items-center gap-1">
-            <Calendar className="h-3 w-3" />
-            {entry.period}
-          </span>
-          <Badge variant="outline" className="border-slate-300 text-[10px] text-slate-600">
-            {entry.duration}
-          </Badge>
-          <span className="flex items-center gap-1">
-            <MapPin className="h-3 w-3" />
-            {entry.location}
-          </span>
-        </div>
-
-        <p className="mb-2 text-sm leading-relaxed text-slate-700">{entry.description}</p>
-
-        <Accordion>
-          <AccordionItem className="border-b-0">
-            <AccordionTrigger className="py-2 text-xs font-semibold tracking-wide uppercase hover:no-underline cursor-pointer">
-              <span className={`flex items-center gap-1 ${isCurrent ? "text-teal-700" : "text-slate-600"}`}>
-                <ChevronRight className="h-3 w-3" />
-                View Details
-              </span>
-            </AccordionTrigger>
-            <AccordionContent>
-              <div className="mb-4">
-                <h4 className="mb-2 text-xs font-semibold tracking-wide uppercase text-slate-600">
-                  Key Achievements
-                </h4>
-                <ul className="space-y-1.5">
-                  {entry.achievements.map((achievement, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm leading-relaxed text-slate-700">
-                      <span
-                        className={`mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full ${
-                          isCurrent ? "bg-teal-700" : "bg-slate-500"
-                        }`}
-                      />
-                      {achievement}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <h4 className="mb-2 text-xs font-semibold tracking-wide uppercase text-slate-600">
-                  Technologies
-                </h4>
-                <div className="flex flex-wrap gap-1.5">
-                  {entry.technologies.map((tech) => (
-                    <Badge
-                      key={tech}
-                      variant="outline"
-                      className={`text-[10px] transition-colors duration-200 ${
-                        isCurrent
-                          ? "border-teal-700/25 bg-teal-700/8 text-teal-800 hover:bg-teal-700/12"
-                          : "border-slate-300 bg-white/75 text-slate-700 hover:bg-slate-100"
-                      }`}
-                    >
-                      {tech}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      </CardContent>
-    </Card>
-  );
-}
+import { ScrollReveal } from "@/components/ScrollReveal";
 
 export function Experience() {
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+
   return (
-    <section id="experience" className="relative px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-      <div className="mx-auto max-w-4xl">
-        <ScrollAnimator animation="fadeInUp">
-          <h2 className="mb-12 text-center text-3xl font-bold tracking-tight sm:text-4xl">
-            <span className="text-gradient-accent">Experience</span>
+    <section id="experience" className="py-32 px-6 sm:px-8 lg:px-12">
+      <div className="max-w-6xl mx-auto">
+        <ScrollReveal>
+          <h2
+            className="font-bold text-text-primary mb-16"
+            style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)" }}
+          >
+            Work <span className="text-accent">Experience</span>
           </h2>
-        </ScrollAnimator>
+        </ScrollReveal>
 
         <div className="relative">
           <div
-            className="absolute top-0 left-5 h-full w-px"
-            style={{
-              background: "linear-gradient(to bottom, #0f766e, #14b8a6, #94a3b8, transparent)",
-            }}
+            className="absolute left-[7px] top-0 bottom-0 w-px bg-border"
+            aria-hidden="true"
           />
 
-          <div className="space-y-8">
-            {experience.map((entry, index) => (
-              <ScrollAnimator key={entry.company} animation="fadeInUp" delay={index * 150}>
-                <div className="relative flex items-start gap-6">
-                  <div className="shrink-0">
-                    <TimelineNode current={entry.current} index={index} />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <ExperienceCard entry={entry} />
+          <div className="space-y-12">
+            {experience.map((entry, i) => (
+              <ScrollReveal key={i} delay={i * 0.1} direction="left">
+                <div className="relative pl-10">
+                  <div
+                    className={`absolute left-0 top-2 w-[15px] h-[15px] rounded-full border-2 ${
+                      entry.current
+                        ? "bg-accent border-accent"
+                        : "bg-background border-border"
+                    }`}
+                  />
+
+                  <div
+                    className={`bg-surface border rounded-xl p-6 transition-all duration-300 hover:border-border-hover ${
+                      entry.current ? "border-accent/30" : "border-border"
+                    }`}
+                  >
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
+                      <div>
+                        <h3 className="text-lg font-semibold text-text-primary">
+                          {entry.role}
+                        </h3>
+                        <p className="text-accent text-sm font-medium">
+                          {entry.company}
+                        </p>
+                      </div>
+                      {entry.current && (
+                        <span
+                          className="inline-flex px-2 py-0.5 text-[10px] font-semibold uppercase bg-accent/10 text-accent rounded-full self-start"
+                          style={{ letterSpacing: "0.1em" }}
+                        >
+                          Current
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="flex flex-wrap gap-4 text-xs text-text-muted mb-4">
+                      <span className="flex items-center gap-1">
+                        <Calendar className="w-3 h-3" />
+                        {entry.period}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <MapPin className="w-3 h-3" />
+                        {entry.location}
+                      </span>
+                    </div>
+
+                    <p className="text-sm text-text-secondary mb-4">
+                      {entry.description}
+                    </p>
+
+                    <button
+                      onClick={() =>
+                        setExpandedIndex(expandedIndex === i ? null : i)
+                      }
+                      className="flex items-center gap-1 text-xs text-text-muted hover:text-accent transition-colors"
+                    >
+                      <ChevronRight
+                        className={`w-3 h-3 transition-transform duration-200 ${
+                          expandedIndex === i ? "rotate-90" : ""
+                        }`}
+                      />
+                      {expandedIndex === i ? "Hide" : "View"} Details
+                    </button>
+
+                    {expandedIndex === i && (
+                      <div className="mt-4 pt-4 border-t border-border space-y-4">
+                        <div>
+                          <p
+                            className="text-xs font-medium uppercase text-text-muted mb-2"
+                            style={{ letterSpacing: "0.1em" }}
+                          >
+                            Achievements
+                          </p>
+                          <ul className="space-y-1.5">
+                            {entry.achievements.map((a, j) => (
+                              <li
+                                key={j}
+                                className="text-xs text-text-secondary flex items-start gap-2"
+                              >
+                                <span className="text-accent mt-0.5">▸</span>
+                                {a}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        <div>
+                          <p
+                            className="text-xs font-medium uppercase text-text-muted mb-2"
+                            style={{ letterSpacing: "0.1em" }}
+                          >
+                            Technologies
+                          </p>
+                          <div className="flex flex-wrap gap-1.5">
+                            {entry.technologies.map((t) => (
+                              <span
+                                key={t}
+                                className="px-2 py-0.5 text-[10px] bg-surface-hover border border-border rounded text-text-secondary"
+                              >
+                                {t}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
-              </ScrollAnimator>
+              </ScrollReveal>
             ))}
-          </div>
-
-          <div className="absolute bottom-0 left-5 flex -translate-x-[3px]">
-            <div className="h-2 w-2 rounded-full bg-slate-500" />
           </div>
         </div>
       </div>
